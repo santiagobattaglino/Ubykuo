@@ -6,11 +6,14 @@ import com.battaglino.santiago.ubykuo.base.mvvm.viewmodel.BaseViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
+
 /**
  * Created by Santiago Battaglino.
  */
 public class MainViewModel extends BaseViewModel {
 
+    @Inject
     public MainViewModel(@NotNull Application application) {
         super(application);
     }

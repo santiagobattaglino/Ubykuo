@@ -1,24 +1,48 @@
 package com.battaglino.santiago.ubykuo.ui.main.activity
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import com.battaglino.santiago.ubykuo.R
 import com.battaglino.santiago.ubykuo.base.activity.BaseActivity
-import com.battaglino.santiago.ubykuo.ui.main.fragment.MainFragment
+import com.battaglino.santiago.ubykuo.ui.main.mvvm.view.MainView
 import dagger.android.AndroidInjection
+import kotlinx.android.synthetic.main.main_activity.*
+import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 
+    @set:Inject
+    internal var view: MainView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .commitNow()
-        }
+        super.onCreate(savedInstanceState)
     }
 
     override fun injectThis() {
         AndroidInjection.inject(this)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_search) {
+            searchView.showSearch(true)
+            searchView.visibility = View.VISIBLE
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (searchView.isSearchOpen) {
+            searchView.closeSearch()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

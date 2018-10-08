@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.battaglino.santiago.ubykuo"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,6 +34,7 @@ dependencies {
     // Support
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:recyclerview-v7:$support_version"
+    implementation "com.android.support:design:$support_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
     // Dagger
@@ -68,6 +69,12 @@ dependencies {
     // ArchPersistence
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+
+    // Picasso
+    //implementation "com.squareup.picasso:picasso:$picasso_version"
+
+    // MaterialSearchView
+    implementation "com.miguelcatalan:materialsearchview:$materialsearchview_version"
 
     // Test
     testImplementation 'junit:junit:4.12'
