@@ -13,11 +13,11 @@ abstract class UseCaseRepository<T>(protected var context: Context) {
 
     /* LiveData to manage a list of T elements */
     /* method that returns the local LiveData list. This method must be observed in your view */
-    var dataList: LiveData<List<T>> = MutableLiveData()
+    var mDataList: LiveData<List<T>> = MutableLiveData()
 
     /* LiveData to manage a T element */
     /* method that returns the local LiveData. This method must be observed in your view */
-    var data: LiveData<T> = MutableLiveData()
+    var mData: LiveData<T> = MutableLiveData()
 
     init {
         this.initLocalData()
