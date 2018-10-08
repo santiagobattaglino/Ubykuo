@@ -11,6 +11,8 @@ import android.content.Context
  */
 abstract class UseCaseRepository<T>(protected var context: Context) {
 
+    var mContext: Context? = null
+
     /* LiveData to manage a list of T elements */
     /* method that returns the local LiveData list. This method must be observed in your view */
     var mDataList: LiveData<List<T>> = MutableLiveData()
@@ -27,7 +29,7 @@ abstract class UseCaseRepository<T>(protected var context: Context) {
     abstract fun initLocalData()
 
     /* Add a T element into the databse */
-    abstract fun addData(t: T)
+    abstract fun addData(data: T)
 
     /* Add a list of T into the database */
     abstract fun addDataList(dataList: List<T>)

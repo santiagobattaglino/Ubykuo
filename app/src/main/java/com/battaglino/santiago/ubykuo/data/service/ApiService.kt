@@ -15,7 +15,7 @@ interface ApiService {
     @GET("search/repositories")
     fun getRepos(
             @Query("q") q: String,
-            @Query("sort") sort: String,
-            @Query("order") order: String
+            @Query("sort") sort: String?,
+            @Query("order") order: String?
     ): Observable<ApiResponse<Repo>>
 }
