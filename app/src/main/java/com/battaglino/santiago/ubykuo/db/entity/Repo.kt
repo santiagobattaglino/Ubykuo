@@ -2,6 +2,9 @@ package com.battaglino.santiago.ubykuo.db.entity
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Created by Santiago Battaglino.
+ */
 data class Repo(
     val id: Int,
     @SerializedName("node_id")

@@ -2,6 +2,9 @@ package com.battaglino.santiago.ubykuo.db.entity
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Created by Santiago Battaglino.
+ */
 data class Owner(
     val login: String,
     val id: Int,
