@@ -6,7 +6,7 @@ import java.util.*
 /**
  * Created by Santiago Battaglino.
  */
-object DateConverter {
+class DateConverter {
 
     @TypeConverter
     fun toDate(timestamp: Long?): Date? {

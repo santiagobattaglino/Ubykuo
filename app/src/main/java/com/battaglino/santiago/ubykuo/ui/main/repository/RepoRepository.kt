@@ -1,6 +1,6 @@
 package com.battaglino.santiago.ubykuo.ui.main.repository
 
-import android.content.Context
+import android.app.Application
 import com.battaglino.santiago.ubykuo.data.model.ApiResponse
 import com.battaglino.santiago.ubykuo.data.repository.UseCaseRepository
 import com.battaglino.santiago.ubykuo.data.service.ApiService
@@ -17,18 +17,13 @@ import javax.inject.Inject
  * Created by Santiago Battaglino.
  */
 class RepoRepository @Inject
-constructor(context: Context, private val mClient: ApiService) : UseCaseRepository<Repo>(context) {
+constructor(context: Application, private val mClient: ApiService) : UseCaseRepository<Repo>(context) {
 
     private var mDataBase: AppDatabase? = null
-    private val mDisposable: CompositeDisposable
-
-    init {
-        mContext = context
-        mDisposable = CompositeDisposable()
-    }
+    private val mDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun initLocalData() {
-        mDataBase = AppDatabase.getDatabaseBuilder(mContext!!)
+        mDataBase = AppDatabase.getDatabaseBuilder(context)
         mDataList = mDataBase!!.repoModel().loadList()
     }
 

@@ -3,55 +3,56 @@ package com.battaglino.santiago.ubykuo.db.entity
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import io.reactivex.annotations.NonNull
-import org.parceler.Parcel
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by Santiago Battaglino.
  */
-@Parcel
+@Parcelize
 @Entity(tableName = "repos", indices = [Index(value = arrayOf("id"))])
 data class Repo(
 
         @PrimaryKey(autoGenerate = true)
         @NonNull
         @Expose
-        val id: Int,
+        var id: Int = 0,
 
         @SerializedName("node_id")
-        val nodeId: String,
-        val name: String,
+        var nodeId: String = "",
+        var name: String = "",
         @SerializedName("full_name")
-        val fullName: String,
-        val owner: Owner,
-        val private: Boolean,
+        var fullName: String = "",
+        var owner: Owner = Owner(),
+        var private: Boolean = false,
         @SerializedName("html_url")
-        val htmlUrl: String,
-        val description: String,
-        val fork: Boolean,
-        val url: String,
+        var htmlUrl: String = "",
+        var description: String = "",
+        var fork: Boolean = false,
+        var url: String = "",
         @SerializedName("created_at")
-        val createdAt: String,
+        var createdAt: String = "",
         @SerializedName("updated_at")
-        val updatedAt: String,
+        var updatedAt: String = "",
         @SerializedName("pushed_at")
-        val pushedAt: String,
-        val homepage: String,
-        val size: Int,
+        var pushedAt: String = "",
+        var homepage: String = "",
+        var size: Int = 0,
         @SerializedName("stargazers_count")
-        val stargazersCount: Int,
+        var stargazersCount: Int = 0,
         @SerializedName("watchers_count")
-        val watchersCount: Int,
-        val language: String,
+        var watchersCount: Int = 0,
+        var language: String = "",
         @SerializedName("forks_count")
-        val forksCount: Int,
+        var forksCount: Int = 0,
         @SerializedName("open_issues_count")
-        val openIssuesCount: Int,
+        var openIssuesCount: Int = 0,
         @SerializedName("master_branch")
-        val masterBranch: String,
+        var masterBranch: String = "",
         @SerializedName("default_branch")
-        val defaultBranch: String,
-        val score: Double
-)
+        var defaultBranch: String = "",
+        var score: Double = 0.0
+) : Parcelable

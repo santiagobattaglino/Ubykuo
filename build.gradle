@@ -10,10 +10,10 @@ buildscript {
     ext.rxkotlin_version = '2.3.0'
     ext.rxandroid_version = '2.0.2'
     ext.rxbinding_version = '2.1.1'
-    ext.parceler_version = '1.1.11'
+    //ext.parceler_version = '1.1.11'
     ext.lifecycle_version = '1.1.1'
     ext.room_version = '1.1.1'
-    ext.picasso_version = '2.71828'
+    //ext.picasso_version = '2.71828'
     ext.materialsearchview_version = '1.4.0'
     repositories {
         google()
