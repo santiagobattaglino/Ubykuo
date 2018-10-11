@@ -13,13 +13,15 @@ import kotlinx.android.parcel.Parcelize
  * Created by Santiago Battaglino.
  */
 @Parcelize
-@Entity(tableName = "owners", indices = [Index(value = arrayOf("id"))])
+@Entity(tableName = "owners", indices = [Index(value = arrayOf("uid"))])
 data class Owner(
 
-        @Expose
         @PrimaryKey(autoGenerate = true)
         @NonNull
-        val id: Int,
+        var uid: Int?,
+
+        @Expose
+        var id: Int,
 
         @Expose
         var login: String,
@@ -46,5 +48,5 @@ data class Owner(
         @Expose
         var type: String
 ) : Parcelable {
-    constructor() : this(0, "", "", "", "", "", "", "")
+    constructor() : this(null, 0, "", "", "", "", "", "", "")
 }

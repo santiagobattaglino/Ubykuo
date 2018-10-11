@@ -50,7 +50,7 @@ class RepoAdapter(
     }
 
     interface OnViewHolderClick {
-        fun onClick(view: View, position: Int, item: Repo?)
+        fun viewHolderClick(view: View, position: Int, item: Repo?)
     }
 
     inner class RepoViewHolder
@@ -67,7 +67,7 @@ class RepoAdapter(
         }
 
         override fun onClick(view: View) {
-            clickListener?.onClick(view, adapterPosition, getItem(adapterPosition))
+            clickListener?.viewHolderClick(view, adapterPosition, getItem(adapterPosition))
         }
     }
 }

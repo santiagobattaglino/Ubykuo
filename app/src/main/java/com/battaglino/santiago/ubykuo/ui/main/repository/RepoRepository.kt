@@ -37,17 +37,23 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
     }
 
     override fun requestDataToServer() {
-        mClient.getRepos("kotlin", null, null)
+
+    }
+
+    fun getRepositoriesFromServer(q: String, sort: String?, order: String?, page: String?, perPage: String?, dispose: Boolean = false) {
+        mClient.getRepos(q, sort, order, page, perPage)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<ApiResponse<Repo>> {
                     override fun onSubscribe(d: Disposable) {
-                        mDisposable.add(d)
+                        if (dispose)
+                            mDisposable.add(d)
                     }
 
                     override fun onNext(dataListFromServer: ApiResponse<Repo>) {
                         addDataList(dataListFromServer.items!!)
-                        mDisposable.dispose()
+                        if (dispose)
+                            mDisposable.dispose()
                     }
 
                     override fun onError(e: Throwable) {

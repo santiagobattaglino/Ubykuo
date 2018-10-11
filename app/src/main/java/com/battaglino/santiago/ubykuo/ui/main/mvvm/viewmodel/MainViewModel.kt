@@ -22,7 +22,7 @@ constructor(application: Application, repository: RepoRepository) : BaseViewMode
         useCaseRepository = repository
     }
 
-    fun fetchReposFromServer() {
-        useCaseRepository!!.requestDataToServer()
+    fun fetchReposFromServer(q: String, sort: String?, order: String?, page: String?, perPage: String?, dispose: Boolean) {
+        useCaseRepository!!.getRepositoriesFromServer(q, order, page, perPage, perPage, dispose)
     }
 }

@@ -11,10 +11,9 @@ import java.lang.ref.WeakReference
  * @typeparam A This represents your Activity related to this view
  * @typeparam V This represents your own implementation of BaseViewModel
  */
-abstract class BaseView<A : AppCompatActivity, V : AndroidViewModel>(baseActivity: A, baseViewModel: V) {
+abstract class BaseView<A : AppCompatActivity, V : AndroidViewModel>(baseActivity: A, protected var baseViewModel: V) {
 
     protected var baseActivity: WeakReference<A> = WeakReference(baseActivity)
-    protected var baseViewModel: V = baseViewModel
 
     init {
         this.subscribeUiToLiveData()

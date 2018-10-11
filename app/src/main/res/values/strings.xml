@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Ubykuo</string>
     <string name="search">Search</string>
-    <string name="mainTitle">Repos</string>
+    <string name="mainTitle">Repos by Query String</string>
 </resources>
