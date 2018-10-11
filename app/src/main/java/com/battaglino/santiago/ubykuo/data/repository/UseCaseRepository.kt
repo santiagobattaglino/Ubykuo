@@ -11,7 +11,7 @@ import android.content.Context
  */
 abstract class UseCaseRepository<T>(protected var context: Context) {
 
-    var mContext: Context? = null
+    var mContext: Context? = context
 
     /* LiveData to manage a list of T elements */
     /* method that returns the local LiveData list. This method must be observed in your view */

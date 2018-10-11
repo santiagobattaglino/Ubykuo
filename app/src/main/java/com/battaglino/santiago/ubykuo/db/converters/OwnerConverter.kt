@@ -12,7 +12,7 @@ class OwnerConverter {
 
     @TypeConverter
     fun fromOwner(owner: Owner?): String? {
-        return if (owner == null) null else String.format(Locale.getDefault(), "%s %s %s",
+        return if (owner == null) null else String.format(Locale.getDefault(), "%s-separator-%s-separator-%s",
                 owner.login,
                 owner.type,
                 owner.url)
@@ -24,7 +24,7 @@ class OwnerConverter {
             return null
         }
 
-        val parts = fullOwner.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val parts = fullOwner.split("-separator-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val owner = Owner()
         owner.login = parts[0]
         owner.type = parts[1]

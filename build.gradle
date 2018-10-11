@@ -7,6 +7,7 @@ buildscript {
     ext.retrofit_version = '2.4.0'
     ext.gson_version = '2.8.2'
     ext.okhttp_version = '3.10.0'
+    ext.rxjava_version = '2.2.2'
     ext.rxkotlin_version = '2.3.0'
     ext.rxandroid_version = '2.0.2'
     ext.rxbinding_version = '2.1.1'

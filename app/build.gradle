@@ -62,6 +62,7 @@ dependencies {
     implementation "com.google.code.gson:gson:$gson_version"
 
     // RxJava2
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rxbinding_version"
@@ -70,12 +71,14 @@ dependencies {
     //implementation "org.parceler:parceler-api:$parceler_version"
     //kapt "org.parceler:parceler:$parceler_version"
 
-    // ArchLifecycle
+    // LifeCycle
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
-    kapt "android.arch.lifecycle:compiler:$lifecycle_version"
+    kapt "android.arch.lifecycle:common-java8:$lifecycle_version"
+    //implementation "android.arch.lifecycle:reactivestreams:$lifecycle_version" // optional - ReactiveStreams support for LiveData
 
-    // ArchPersistence
+    // Room
     implementation "android.arch.persistence.room:runtime:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"
 
     // Picasso

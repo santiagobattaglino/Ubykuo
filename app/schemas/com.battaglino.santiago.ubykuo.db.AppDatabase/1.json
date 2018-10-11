@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1e0b478d38cf1e148554c62eefbcf050",
+    "identityHash": "a32b5ee47598d7705e5bf96a0899bf69",
     "entities": [
       {
         "tableName": "repos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nodeId` TEXT NOT NULL, `name` TEXT NOT NULL, `fullName` TEXT NOT NULL, `owner` TEXT NOT NULL, `htmlUrl` TEXT NOT NULL, `description` TEXT NOT NULL, `fork` INTEGER NOT NULL, `url` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `pushedAt` TEXT NOT NULL, `homepage` TEXT NOT NULL, `size` INTEGER NOT NULL, `stargazersCount` INTEGER NOT NULL, `watchersCount` INTEGER NOT NULL, `language` TEXT NOT NULL, `forksCount` INTEGER NOT NULL, `openIssuesCount` INTEGER NOT NULL, `masterBranch` TEXT NOT NULL, `defaultBranch` TEXT NOT NULL, `score` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nodeId` TEXT NOT NULL, `name` TEXT NOT NULL, `fullName` TEXT NOT NULL, `owner` TEXT NOT NULL, `htmlUrl` TEXT NOT NULL, `description` TEXT NOT NULL, `fork` INTEGER NOT NULL, `url` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `pushedAt` TEXT NOT NULL, `homepage` TEXT, `size` INTEGER NOT NULL, `stargazersCount` INTEGER NOT NULL, `watchersCount` INTEGER NOT NULL, `language` TEXT, `forksCount` INTEGER NOT NULL, `openIssuesCount` INTEGER NOT NULL, `masterBranch` TEXT NOT NULL, `defaultBranch` TEXT NOT NULL, `score` REAL NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -84,7 +84,7 @@
             "fieldPath": "homepage",
             "columnName": "homepage",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "size",
@@ -108,7 +108,7 @@
             "fieldPath": "language",
             "columnName": "language",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "forksCount",
@@ -162,7 +162,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1e0b478d38cf1e148554c62eefbcf050\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a32b5ee47598d7705e5bf96a0899bf69\")"
     ]
   }
 }
