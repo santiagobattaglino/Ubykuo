@@ -72,7 +72,7 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
     }
 
     private fun subscribeSuggestions() {
-        baseViewModel.findReposByQueryFromDb(mQueryString)?.observe(baseActivity.get()!!, Observer<List<Repo>> { suggestions ->
+        baseViewModel.findSuggestionsByQueryFromDb()?.observe(baseActivity.get()!!, Observer<List<Repo>> { suggestions ->
             if (suggestions != null) {
                 setSuggestions(suggestions)
             }
@@ -81,9 +81,7 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
 
     private fun subscribeReposByQuery() {
         baseViewModel.getFoundRepos()?.observe(baseActivity.get()!!, Observer<List<Repo>> { repos ->
-            if (repos == null || repos.isEmpty()) {
-                baseViewModel.findReposByQueryFromServer(mQueryString, "stars", "desc", null, null, false)
-            } else {
+            if (repos != null) {
                 mRepos = repos
                 baseViewModel.findSuggestionsByQueryFromDb()
                 fillAdapter(repos)

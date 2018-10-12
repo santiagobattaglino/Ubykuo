@@ -31,8 +31,8 @@ constructor(application: Application, repository: RepoRepository) : BaseViewMode
         return useCaseRepository?.findReposByQueryFromDb(query)
     }
 
-    fun findSuggestionsByQueryFromDb() {
-        useCaseRepository?.findSuggestionsFromDb()
+    fun findSuggestionsByQueryFromDb(): LiveData<List<Repo>>? {
+        return useCaseRepository?.findSuggestionsFromDb()
     }
 
     fun getFoundSuggestions(): LiveData<List<Repo>>? {

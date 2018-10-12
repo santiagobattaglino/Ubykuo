@@ -78,8 +78,9 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
                 })
     }
 
-    fun findSuggestionsFromDb() {
+    fun findSuggestionsFromDb(): LiveData<List<Repo>> {
         mFoundSuggestions.value = mDataBase!!.repoModel().loadSuggestions()
+        return getFoundSuggestionsDataList()
     }
 
     fun findReposByQueryFromDb(mQueryString: String): LiveData<List<Repo>> {
