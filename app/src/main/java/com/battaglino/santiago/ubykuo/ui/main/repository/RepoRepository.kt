@@ -26,6 +26,7 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
     private val mDisposable: CompositeDisposable = CompositeDisposable()
 
     private var mFoundRepos: MutableLiveData<List<Repo>> = MutableLiveData()
+    private var mFoundSuggestions: MutableLiveData<List<Repo>> = MutableLiveData()
 
     override fun initLocalData() {
         mDataBase = AppDatabase.getDatabaseBuilder(context)
@@ -33,7 +34,8 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
     }
 
     override fun addData(data: Repo) {
-
+        mDataBase!!.repoModel().insert(data)
+        setData(mDataBase!!.repoModel().load(data.uid))
     }
 
     override fun addDataList(dataList: List<Repo>) {
@@ -41,13 +43,13 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
         setDataList(mDataBase!!.repoModel().loadList())
     }
 
-    override fun requestDataToServer() {
-
+    private fun addFoundReposDataList(repos: List<Repo>, q: String) {
+        mDataBase!!.repoModel().insertAll(repos)
+        setFoundReposDataList(mDataBase!!.repoModel().loadByQuery(q))
     }
 
-    fun addFoundReposDataList(repos: List<Repo>, q: String) {
-        mDataBase!!.repoModel().insertAll(repos)
-        setFoundReposDataList(mDataBase!!.repoModel().loadByName(q))
+    override fun requestDataToServer() {
+
     }
 
     fun findReposByQueryFromServer(q: String, sort: String?, order: String?, page: String?, perPage: String?, dispose: Boolean = false) {
@@ -62,7 +64,6 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
 
                     override fun onNext(dataListFromServer: ApiResponse<Repo>) {
                         addFoundReposDataList(dataListFromServer.items, q)
-                        //addDataList(dataListFromServer.items)
                         if (dispose)
                             mDisposable.dispose()
                     }
@@ -77,16 +78,24 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
                 })
     }
 
-    fun findReposByQueryFromDb(mQueryString: String): LiveData<List<Repo>> {
-        mFoundRepos.value = mDataBase!!.repoModel().loadByName(mQueryString)
-        return mFoundRepos
+    fun findSuggestionsFromDb() {
+        mFoundSuggestions.value = mDataBase!!.repoModel().loadSuggestions()
     }
 
-    fun setFoundReposDataList(foundRepos: List<Repo>) {
-        mFoundRepos.value = foundRepos
+    fun findReposByQueryFromDb(mQueryString: String): LiveData<List<Repo>> {
+        mFoundRepos.value = mDataBase!!.repoModel().loadByQuery(mQueryString)
+        return getFoundReposDataList()
+    }
+
+    fun getFoundSuggestionsDataList(): LiveData<List<Repo>> {
+        return mFoundSuggestions
     }
 
     fun getFoundReposDataList(): LiveData<List<Repo>> {
         return mFoundRepos
+    }
+
+    private fun setFoundReposDataList(foundRepos: List<Repo>) {
+        mFoundRepos.value = foundRepos
     }
 }
