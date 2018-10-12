@@ -18,5 +18,5 @@ class ApiResponse<T> {
 
     @SerializedName("items")
     @Expose
-    var items: List<T>? = null
+    var items: List<T> = emptyList()
 }

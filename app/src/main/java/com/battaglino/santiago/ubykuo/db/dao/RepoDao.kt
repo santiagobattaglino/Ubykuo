@@ -17,6 +17,9 @@ interface RepoDao {
     @Query("select * from repos")
     fun loadList(): LiveData<List<Repo>>
 
+    @Query("select * from repos where name like '%' || :query  || '%' or fullName like '%' || :query  || '%'")
+    fun loadByName(query: String?): List<Repo>
+
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insertAll(repos: List<Repo>)
 }

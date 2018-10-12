@@ -73,6 +73,7 @@ dependencies {
 
     // LifeCycle
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    //kapt "android.arch.lifecycle:compiler:$lifecycle_version"
     kapt "android.arch.lifecycle:common-java8:$lifecycle_version"
     //implementation "android.arch.lifecycle:reactivestreams:$lifecycle_version" // optional - ReactiveStreams support for LiveData
 

@@ -2,4 +2,6 @@
     <string name="app_name">Ubykuo</string>
     <string name="search">Search</string>
     <string name="mainTitle">Repos by Query String</string>
+    <string name="repoName">repoName</string>
+    <string name="repoFullName">repoFullName</string>
 </resources>

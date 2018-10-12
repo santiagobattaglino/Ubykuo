@@ -1,6 +1,9 @@
 package com.battaglino.santiago.ubykuo.ui.main.repository
 
 import android.app.Application
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import com.battaglino.santiago.ubykuo.data.model.ApiResponse
 import com.battaglino.santiago.ubykuo.data.repository.UseCaseRepository
 import com.battaglino.santiago.ubykuo.data.service.ApiService
@@ -22,9 +25,11 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
     private var mDataBase: AppDatabase? = null
     private val mDisposable: CompositeDisposable = CompositeDisposable()
 
+    private var mFoundRepos: MutableLiveData<List<Repo>> = MutableLiveData()
+
     override fun initLocalData() {
         mDataBase = AppDatabase.getDatabaseBuilder(context)
-        mDataList = mDataBase!!.repoModel().loadList()
+        setDataList(mDataBase!!.repoModel().loadList())
     }
 
     override fun addData(data: Repo) {
@@ -33,14 +38,19 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
 
     override fun addDataList(dataList: List<Repo>) {
         mDataBase!!.repoModel().insertAll(dataList)
-        mDataList = mDataBase!!.repoModel().loadList()
+        setDataList(mDataBase!!.repoModel().loadList())
     }
 
     override fun requestDataToServer() {
 
     }
 
-    fun getRepositoriesFromServer(q: String, sort: String?, order: String?, page: String?, perPage: String?, dispose: Boolean = false) {
+    fun addFoundReposDataList(repos: List<Repo>, q: String) {
+        mDataBase!!.repoModel().insertAll(repos)
+        setFoundReposDataList(mDataBase!!.repoModel().loadByName(q))
+    }
+
+    fun findReposByQueryFromServer(q: String, sort: String?, order: String?, page: String?, perPage: String?, dispose: Boolean = false) {
         mClient.getRepos(q, sort, order, page, perPage)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -51,18 +61,32 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
                     }
 
                     override fun onNext(dataListFromServer: ApiResponse<Repo>) {
-                        addDataList(dataListFromServer.items!!)
+                        addFoundReposDataList(dataListFromServer.items, q)
+                        //addDataList(dataListFromServer.items)
                         if (dispose)
                             mDisposable.dispose()
                     }
 
                     override fun onError(e: Throwable) {
-
+                        Log.e("error", e.message)
                     }
 
                     override fun onComplete() {
 
                     }
                 })
+    }
+
+    fun findReposByQueryFromDb(mQueryString: String): LiveData<List<Repo>> {
+        mFoundRepos.value = mDataBase!!.repoModel().loadByName(mQueryString)
+        return mFoundRepos
+    }
+
+    fun setFoundReposDataList(foundRepos: List<Repo>) {
+        mFoundRepos.value = foundRepos
+    }
+
+    fun getFoundReposDataList(): LiveData<List<Repo>> {
+        return mFoundRepos
     }
 }

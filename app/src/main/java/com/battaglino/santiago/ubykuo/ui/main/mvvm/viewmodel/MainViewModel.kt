@@ -15,14 +15,24 @@ import javax.inject.Inject
 class MainViewModel @Inject
 constructor(application: Application, repository: RepoRepository) : BaseViewModel<Repo, RepoRepository>(application) {
 
-    val repos: LiveData<List<Repo>>
-        get() = useCaseRepository!!.mDataList
-
     init {
         useCaseRepository = repository
     }
 
-    fun fetchReposFromServer(q: String, sort: String?, order: String?, page: String?, perPage: String?, dispose: Boolean) {
-        useCaseRepository!!.getRepositoriesFromServer(q, order, page, perPage, perPage, dispose)
+    fun getReposFromDb(): LiveData<List<Repo>>? {
+        return useCaseRepository?.getDataList()
+    }
+
+    fun findReposByQueryFromServer(q: String, sort: String?, order: String?, page: String?, perPage: String?, dispose: Boolean) {
+        useCaseRepository?.findReposByQueryFromServer(q, sort, order, page, perPage, dispose)
+    }
+
+    fun findReposByQueryFromDb(query: String): LiveData<List<Repo>>? {
+        useCaseRepository?.findReposByQueryFromDb(query)
+        return getFoundRepos()
+    }
+
+    fun getFoundRepos(): LiveData<List<Repo>>? {
+        return useCaseRepository?.getFoundReposDataList()
     }
 }

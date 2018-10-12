@@ -2,7 +2,6 @@ package com.battaglino.santiago.ubykuo.ui.main.mvvm.view
 
 import android.arch.lifecycle.Observer
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.View
 import com.battaglino.santiago.ubykuo.R
 import com.battaglino.santiago.ubykuo.base.mvvm.view.BaseView
@@ -16,9 +15,6 @@ import kotlinx.android.synthetic.main.main_activity.*
 import java.util.*
 
 
-
-
-
 /**
  * Created by Santiago Battaglino.
  */
@@ -27,51 +23,89 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
         MaterialSearchView.OnQueryTextListener, MaterialSearchView.SearchViewListener,
         RepoAdapter.OnViewHolderClick {
 
-    private var mRepos: List<Repo>? = null
-    private var mAdapter: RepoAdapter? = null
+    private var mRepos: List<Repo> = emptyList()
+    private var mAdapter: RepoAdapter = RepoAdapter(baseActivity.get()!!, this)
     private var mQueryString: String = "kotlin"
 
+    private val toolbar = baseActivity.get()?.toolbar
+    private val searchView = baseActivity.get()?.searchView
+    private val mainTitle = baseActivity.get()?.mainTitle
+    private val recyclerviewHorizontal = baseActivity.get()?.recyclerviewHorizontal
+    private val layoutManager = LinearLayoutManager(baseActivity.get(), LinearLayoutManager.VERTICAL, false)
+
     init {
-        setUpNavigation(baseActivity.get()?.toolbar)
+        setUpNavigation()
         setUpSearchView()
         setUpTitle()
         setUpRecyclerView()
     }
 
+    private fun setUpNavigation() {
+        baseActivity.get()?.setSupportActionBar(toolbar)
+    }
+
+    private fun setUpSearchView() {
+        searchView?.setEllipsize(true)
+        searchView?.setOnQueryTextListener(this)
+    }
+
+    private fun setUpTitle() {
+        mainTitle?.text = String.format(Locale.getDefault(), "%s: %s",
+                baseActivity.get()?.getString(R.string.mainTitle), mQueryString
+        )
+    }
+
+    private fun setUpRecyclerView() {
+        recyclerviewHorizontal?.layoutManager = layoutManager
+        recyclerviewHorizontal?.adapter = mAdapter
+    }
+
+
+
     override fun subscribeUiToLiveData() {
-        baseViewModel.repos.observe(baseActivity.get()!!, Observer<List<Repo>> { repos ->
-            doRepos(repos)
+        subscribeReposByQuery()
+    }
+
+
+    private fun subscribeReposByQuery() {
+        baseViewModel.getFoundRepos()?.observe(baseActivity.get()!!, Observer<List<Repo>> { repos ->
+            if (repos == null || repos.isEmpty()) {
+                baseViewModel.findReposByQueryFromServer(mQueryString, "stars", "desc", null, null, false)
+            } else {
+                mRepos = repos
+                searchView?.setSuggestions(getSuggestions(repos))
+                fillAdapter(repos)
+            }
         })
     }
 
-    private fun doRepos(repos: List<Repo>?) {
-        if (repos == null || repos.isEmpty()) {
-            baseViewModel.fetchReposFromServer(mQueryString, null, null, null, null, false)
-        } else {
-            mRepos = repos
-            mAdapter?.mRepos = repos
-            mAdapter?.notifyDataSetChanged()
-            baseActivity.get()?.searchView?.setSuggestions(getSuggestions(repos))
-        }
+    private fun fillAdapter(repos: List<Repo>) {
+        mAdapter.mRepos = repos
     }
+
+    private fun getSuggestions(repos: List<Repo>): Array<String?> {
+        var suggestions = arrayOfNulls<String>(0)
+        repos.forEach {
+            suggestions += it.name
+        }
+        return suggestions
+    }
+
+
 
     override fun showDataInUi() {
 
     }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
-            baseActivity.get()?.searchView?.setSuggestions(getSuggestions(mRepos))
-        }
+    override fun onQueryTextChange(newText: String): Boolean {
+        searchView?.setSuggestions(getSuggestions(mRepos))
         return false
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) {
-            baseViewModel.fetchReposFromServer(query, null, null, null, null, false)
-            mQueryString = query
-            setUpTitle()
-        }
+    override fun onQueryTextSubmit(query: String): Boolean {
+        mQueryString = query
+        baseViewModel.findReposByQueryFromDb(query)
+        setUpTitle()
         return false
     }
 
@@ -85,36 +119,5 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
 
     override fun viewHolderClick(view: View, position: Int, item: Repo?) {
 
-    }
-
-    private fun setUpNavigation(toolbar: Toolbar?) {
-        baseActivity.get()?.setSupportActionBar(toolbar)
-    }
-
-    private fun setUpSearchView() {
-        baseActivity.get()?.searchView?.setEllipsize(true)
-        baseActivity.get()?.searchView?.setOnQueryTextListener(this)
-    }
-
-    private fun setUpTitle() {
-        baseActivity.get()?.mainTitle?.text = String.format(Locale.getDefault(), "%s: %s",
-                baseActivity.get()?.getString(R.string.mainTitle), mQueryString
-        )
-    }
-
-    private fun setUpRecyclerView() {
-        val layoutManager = LinearLayoutManager(baseActivity.get(), LinearLayoutManager.VERTICAL, false)
-        baseActivity.get()?.recyclerviewHorizontal?.layoutManager = layoutManager
-
-        mAdapter = RepoAdapter(baseActivity.get()!!, this, mRepos)
-        baseActivity.get()?.recyclerviewHorizontal?.adapter = mAdapter
-    }
-
-    private fun getSuggestions(repos: List<Repo>?): Array<String?> {
-        var suggestions = arrayOfNulls<String>(0)
-        repos?.forEach {
-            suggestions += it.name
-        }
-        return suggestions
     }
 }

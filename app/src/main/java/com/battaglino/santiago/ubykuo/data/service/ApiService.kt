@@ -14,7 +14,7 @@ interface ApiService {
 
     @GET("search/repositories")
     fun getRepos(
-            @Query("q") q: String,
+            @Query("q") q: String?,
             @Query("sort") sort: String?,
             @Query("order") order: String?,
             @Query("page") page: String?,

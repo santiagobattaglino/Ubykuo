@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "84610c3f4f55538d6210dd7c6d7b8f0e",
+    "identityHash": "3b6979817f47dc570c591eb1e62262e1",
     "entities": [
       {
         "tableName": "repos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT, `id` INTEGER NOT NULL, `nodeId` TEXT NOT NULL, `name` TEXT NOT NULL, `fullName` TEXT NOT NULL, `owner` TEXT NOT NULL, `htmlUrl` TEXT NOT NULL, `description` TEXT NOT NULL, `fork` INTEGER NOT NULL, `url` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `pushedAt` TEXT NOT NULL, `homepage` TEXT, `size` INTEGER NOT NULL, `stargazersCount` INTEGER NOT NULL, `watchersCount` INTEGER NOT NULL, `language` TEXT, `forksCount` INTEGER NOT NULL, `openIssuesCount` INTEGER NOT NULL, `masterBranch` TEXT NOT NULL, `defaultBranch` TEXT NOT NULL, `score` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT, `id` INTEGER, `nodeId` TEXT, `name` TEXT, `fullName` TEXT, `owner` TEXT, `htmlUrl` TEXT, `description` TEXT, `fork` INTEGER, `url` TEXT, `createdAt` TEXT, `updatedAt` TEXT, `pushedAt` TEXT, `homepage` TEXT, `size` INTEGER, `stargazersCount` INTEGER, `watchersCount` INTEGER, `language` TEXT, `forksCount` INTEGER, `openIssuesCount` INTEGER, `masterBranch` TEXT, `defaultBranch` TEXT, `score` REAL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -18,73 +18,73 @@
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "nodeId",
             "columnName": "nodeId",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "fullName",
             "columnName": "fullName",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "owner",
             "columnName": "owner",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "htmlUrl",
             "columnName": "htmlUrl",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "description",
             "columnName": "description",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "fork",
             "columnName": "fork",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "url",
             "columnName": "url",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "createdAt",
             "columnName": "createdAt",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "updatedAt",
             "columnName": "updatedAt",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "pushedAt",
             "columnName": "pushedAt",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "homepage",
@@ -96,19 +96,19 @@
             "fieldPath": "size",
             "columnName": "size",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "stargazersCount",
             "columnName": "stargazersCount",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "watchersCount",
             "columnName": "watchersCount",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "language",
@@ -120,31 +120,31 @@
             "fieldPath": "forksCount",
             "columnName": "forksCount",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "openIssuesCount",
             "columnName": "openIssuesCount",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "masterBranch",
             "columnName": "masterBranch",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "defaultBranch",
             "columnName": "defaultBranch",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "score",
             "columnName": "score",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -168,7 +168,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"84610c3f4f55538d6210dd7c6d7b8f0e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3b6979817f47dc570c591eb1e62262e1\")"
     ]
   }
 }
