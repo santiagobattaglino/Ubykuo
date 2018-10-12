@@ -9,6 +9,7 @@ import com.battaglino.santiago.ubykuo.db.converters.DateConverter
 import com.battaglino.santiago.ubykuo.db.converters.OwnerConverter
 import com.battaglino.santiago.ubykuo.db.dao.RepoDao
 import com.battaglino.santiago.ubykuo.db.entity.Repo
+import com.battaglino.santiago.ubykuo.global.Constants
 
 /**
  * Created by Santiago Battaglino.
@@ -22,7 +23,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
-        @Volatile private var INSTANCE: AppDatabase? = null
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
 
         fun getDatabaseBuilder(context: Context): AppDatabase =
                 INSTANCE ?: synchronized(this) {
@@ -30,8 +32,7 @@ abstract class AppDatabase : RoomDatabase() {
                 }
 
         private fun buildDatabase(context: Context) =
-                Room.inMemoryDatabaseBuilder(context.applicationContext,
-                        AppDatabase::class.java)
+                Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, Constants.APP_DB_NAME)
                         .allowMainThreadQueries()
                         .build()
     }
