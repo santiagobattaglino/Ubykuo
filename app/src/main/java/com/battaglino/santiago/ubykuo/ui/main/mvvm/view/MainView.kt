@@ -38,7 +38,6 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
         setUpNavigation()
         setUpSearchView()
         setUpRecyclerView()
-        doSearch()
     }
 
     private fun setUpNavigation() {
@@ -68,13 +67,26 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
 
     override fun subscribeUiToLiveData() {
         subscribeSuggestions()
-        subscribeReposByQuery()
+        subscribeRepos()
+        //subscribeReposByQuery()
     }
 
     private fun subscribeSuggestions() {
         baseViewModel.getSuggestions()?.observe(baseActivity.get()!!, Observer<List<Repo>> { suggestions ->
             if (suggestions != null) {
                 setSuggestions(suggestions)
+            }
+        })
+    }
+
+    private fun subscribeRepos() {
+        baseViewModel.getRepos()?.observe(baseActivity.get()!!, Observer<List<Repo>> { repos ->
+            if (repos != null && !repos.isEmpty()) {
+                mRepos = repos
+                fillRepoAdapter(repos)
+            } else {
+                searchView?.showSearch(true)
+                searchView?.visibility = View.VISIBLE
             }
         })
     }

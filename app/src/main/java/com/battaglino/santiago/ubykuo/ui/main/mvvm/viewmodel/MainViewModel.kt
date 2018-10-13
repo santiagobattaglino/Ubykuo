@@ -23,6 +23,10 @@ constructor(application: Application, repository: RepoRepository) : BaseViewMode
         return useCaseRepository?.getSuggestions()
     }
 
+    fun getRepos(): LiveData<List<Repo>>? {
+        return useCaseRepository?.getDataList()
+    }
+
     fun getReposByQuery(): LiveData<List<Repo>>? {
         return useCaseRepository?.getReposByQuery()
     }

@@ -30,17 +30,17 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
 
     override fun initLocalData() {
         mDataBase = AppDatabase.getDatabaseBuilder(context)
-        //setDataList(mDataBase!!.repoModel().loadList())
+        setDataList(mDataBase!!.repoModel().loadList())
     }
 
     override fun addData(data: Repo) {
-        //mDataBase!!.repoModel().insert(data)
-        //setData(mDataBase!!.repoModel().load(data.uid))
+        mDataBase!!.repoModel().insert(data)
+        setData(mDataBase!!.repoModel().load(data.id))
     }
 
     override fun addDataList(dataList: List<Repo>) {
-        //mDataBase!!.repoModel().insertAll(dataList)
-        //setDataList(mDataBase!!.repoModel().loadList())
+        mDataBase!!.repoModel().insertAll(dataList)
+        setDataList(mDataBase!!.repoModel().loadList())
     }
 
     override fun requestDataToServer() {
