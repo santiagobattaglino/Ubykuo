@@ -1,13 +1,13 @@
 package com.battaglino.santiago.ubykuo.ui.main.adapter
 
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.battaglino.santiago.ubykuo.R
 import com.battaglino.santiago.ubykuo.db.entity.Repo
-import com.battaglino.santiago.ubykuo.ui.main.activity.MainActivity
 import kotlinx.android.synthetic.main.listitem_repo.view.*
 import kotlin.properties.Delegates
 
@@ -16,7 +16,7 @@ import kotlin.properties.Delegates
  * Created by Santiago Battaglino.
  */
 class RepoAdapter(
-        private val context: MainActivity?,
+        private val context: AppCompatActivity?,
         private val onViewHolderClick: OnViewHolderClick?
 ) : RecyclerView.Adapter<RepoAdapter.ViewHolder>(), AutoUpdatableAdapter {
 
@@ -34,7 +34,7 @@ class RepoAdapter(
         holder.bind(mRepos[position])
     }
 
-    private fun createView(context: MainActivity?, viewGroup: ViewGroup, viewType: Int): View {
+    private fun createView(context: AppCompatActivity?, viewGroup: ViewGroup, viewType: Int): View {
         val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         return inflater.inflate(R.layout.listitem_repo, viewGroup, false)
     }

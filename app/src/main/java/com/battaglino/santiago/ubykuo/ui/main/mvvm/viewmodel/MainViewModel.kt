@@ -34,4 +34,8 @@ constructor(application: Application, repository: RepoRepository) : BaseViewMode
     fun findReposByQueryFromServer(q: String, sort: String?, order: String?, page: String?, perPage: String?, dispose: Boolean) {
         useCaseRepository?.findReposByQueryFromServer(q, sort, order, page, perPage, dispose)
     }
+
+    fun getReposCached(queryString: String) {
+        useCaseRepository?.getReposCached(queryString)
+    }
 }

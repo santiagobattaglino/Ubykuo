@@ -90,4 +90,8 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
     private fun setFoundReposDataList(foundRepos: List<Repo>) {
         mFoundRepos.value = foundRepos
     }
+
+    fun getReposCached(queryString: String) {
+        setFoundReposDataList(mDataBase!!.repoModel().loadByQuery(queryString))
+    }
 }

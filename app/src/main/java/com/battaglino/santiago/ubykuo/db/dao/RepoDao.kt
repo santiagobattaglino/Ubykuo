@@ -19,15 +19,15 @@ interface RepoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(repos: List<Repo>)
 
-    @Query("select * from repos")
+    @Query("select id, name, score, fullName, description from repos order by score desc")
     fun loadList(): LiveData<List<Repo>>
 
-    @Query("select * from repos where id = :id")
+    @Query("select id, name, score, fullname, description from repos where id = :id")
     fun load(id: Int?): LiveData<Repo>
 
-    @Query("select id, name, score, fullname from repos where name like '%' || :query  || '%' or fullName like '%' || :query  || '%' or description like '%' || :query  || '%' order by score desc")
+    @Query("select id, name, score, fullname, description from repos where name like '%' || :query  || '%' or fullName like '%' || :query  || '%' or description like '%' || :query  || '%' order by score desc")
     fun loadByQuery(query: String?): List<Repo>
 
-    @Query("select id, name, fullName, description from repos order by score desc")
+    @Query("select id, name, score, fullName, description from repos order by score desc")
     fun loadSuggestions(): LiveData<List<Repo>>
 }

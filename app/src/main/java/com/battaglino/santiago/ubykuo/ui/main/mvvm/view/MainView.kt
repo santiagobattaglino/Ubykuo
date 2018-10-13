@@ -1,11 +1,13 @@
 package com.battaglino.santiago.ubykuo.ui.main.mvvm.view
 
 import android.arch.lifecycle.Observer
+import android.preference.PreferenceManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.battaglino.santiago.ubykuo.R
 import com.battaglino.santiago.ubykuo.base.mvvm.view.BaseView
 import com.battaglino.santiago.ubykuo.db.entity.Repo
+import com.battaglino.santiago.ubykuo.global.Constants
 import com.battaglino.santiago.ubykuo.ui.main.activity.MainActivity
 import com.battaglino.santiago.ubykuo.ui.main.adapter.RepoAdapter
 import com.battaglino.santiago.ubykuo.ui.main.mvvm.viewmodel.MainViewModel
@@ -25,7 +27,7 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
 
     private var mRepos: List<Repo> = emptyList()
     private var mAdapter: RepoAdapter = RepoAdapter(baseActivity.get(), this)
-    private var mQueryString: String = ""
+    private var mQueryString: String = getQueryString()
 
     private val toolbar = baseActivity.get()?.toolbar
     private val searchView = baseActivity.get()?.searchView
@@ -34,9 +36,9 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
     private val layoutManager = LinearLayoutManager(baseActivity.get(), LinearLayoutManager.VERTICAL, false)
 
     init {
-        mQueryString = "kotlin"
         setUpNavigation()
         setUpSearchView()
+        setTitle()
         setUpRecyclerView()
     }
 
@@ -47,6 +49,7 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
     private fun setUpSearchView() {
         searchView?.setEllipsize(true)
         searchView?.setOnQueryTextListener(this)
+        baseViewModel.getReposCached(getQueryString())
     }
 
     private fun setUpRecyclerView() {
@@ -54,21 +57,9 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
         recyclerviewHorizontal?.adapter = mAdapter
     }
 
-    private fun doSearch() {
-        setTitle()
-        baseViewModel.findReposByQueryFromServer(mQueryString, "stars", "desc", null, null, false)
-    }
-
-    private fun setTitle() {
-        mainTitle?.text = String.format(Locale.getDefault(), "%s: %s",
-                baseActivity.get()?.getString(R.string.mainTitle), mQueryString
-        )
-    }
-
     override fun subscribeUiToLiveData() {
         subscribeSuggestions()
-        subscribeRepos()
-        //subscribeReposByQuery()
+        subscribeReposByQuery()
     }
 
     private fun subscribeSuggestions() {
@@ -79,23 +70,14 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
         })
     }
 
-    private fun subscribeRepos() {
-        baseViewModel.getRepos()?.observe(baseActivity.get()!!, Observer<List<Repo>> { repos ->
+    private fun subscribeReposByQuery() {
+        baseViewModel.getReposByQuery()?.observe(baseActivity.get()!!, Observer<List<Repo>> { repos ->
             if (repos != null && !repos.isEmpty()) {
                 mRepos = repos
                 fillRepoAdapter(repos)
             } else {
-                searchView?.showSearch(true)
+                searchView?.showSearch(false)
                 searchView?.visibility = View.VISIBLE
-            }
-        })
-    }
-
-    private fun subscribeReposByQuery() {
-        baseViewModel.getReposByQuery()?.observe(baseActivity.get()!!, Observer<List<Repo>> { repos ->
-            if (repos != null) {
-                mRepos = repos
-                fillRepoAdapter(repos)
             }
         })
     }
@@ -121,9 +103,35 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
-        mQueryString = query
+        setQueryString(query)
         doSearch()
         return false
+    }
+
+    private fun doSearch() {
+        setTitle()
+        baseViewModel.findReposByQueryFromServer(mQueryString, "stars", "desc", null, null, false)
+    }
+
+    private fun setTitle() {
+        if (!mQueryString.isEmpty()) {
+            mainTitle?.visibility = View.VISIBLE
+            mainTitle?.text = String.format(Locale.getDefault(), "%s: %s",
+                    baseActivity.get()?.getString(R.string.mainTitle), mQueryString
+            )
+        }
+    }
+
+    private fun setQueryString(query: String) {
+        mQueryString = query
+        val preferences = PreferenceManager.getDefaultSharedPreferences(baseActivity.get())
+        preferences.edit().putString(Constants.QUERY, query).apply()
+    }
+
+    private fun getQueryString(): String {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(baseActivity.get())
+        mQueryString = preferences.getString(Constants.QUERY, "")
+        return mQueryString
     }
 
     override fun onSearchViewShown() {
