@@ -30,6 +30,18 @@ class RepoAdapter(
 
     override fun getItemCount() = mRepos.size
 
+    private fun getItem(index: Int): Repo {
+        return mRepos[index]
+    }
+
+    private fun getScore(score: Double?): Float {
+        return if (score != null) {
+            (score * 5 / 100).toFloat()
+        } else {
+            0f
+        }
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(mRepos[position])
     }
@@ -40,10 +52,10 @@ class RepoAdapter(
     }
 
     interface OnViewHolderClick {
-        fun viewHolderClick(view: View, position: Int, item: Repo?)
+        fun repoViewClickFromList(view: View, position: Int, item: Repo)
     }
 
-    class ViewHolder(itemView: View, listener: RepoAdapter.OnViewHolderClick?) :
+    inner class ViewHolder(itemView: View, listener: RepoAdapter.OnViewHolderClick?) :
             RecyclerView.ViewHolder(itemView),
             View.OnClickListener {
 
@@ -53,7 +65,7 @@ class RepoAdapter(
         }
 
         override fun onClick(view: View) {
-            //onViewHolderClick?.viewHolderClick(view, adapterPosition, getItem(adapterPosition))
+            onViewHolderClick?.repoViewClickFromList(view, adapterPosition, getItem(adapterPosition))
         }
 
         fun bind(repo: Repo) = with(itemView) {
@@ -61,35 +73,5 @@ class RepoAdapter(
             score.rating = getScore(repo.score)
             fullName.text = repo.fullName
         }
-
-        private fun getScore(score: Double?): Float {
-            return if (score != null) {
-                (score * 5 / 100).toFloat()
-            } else {
-                0f
-            }
-        }
     }
-
-    /*private fun getItem(index: Int): Repo? {
-        return if (mRepos != null && index < mRepos!!.size) mRepos!![index] else null
-    }*/
-
-    /*inner class RepoViewHolder
-    internal constructor(
-            view: View,
-            listener: RepoAdapter.OnViewHolderClick?
-    ) : RecyclerView.ViewHolder(view), View.OnClickListener {
-
-        val text1 = view.text1!!
-
-        init {
-            if (listener != null)
-                view.setOnClickListener(this)
-        }
-
-        override fun onClick(view: View) {
-            clickListener?.viewHolderClick(view, adapterPosition, getItem(adapterPosition))
-        }
-    }*/
 }

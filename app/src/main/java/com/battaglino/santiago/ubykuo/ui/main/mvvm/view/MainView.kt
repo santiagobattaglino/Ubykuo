@@ -1,6 +1,7 @@
 package com.battaglino.santiago.ubykuo.ui.main.mvvm.view
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.preference.PreferenceManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -142,7 +143,7 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
 
     }
 
-    override fun viewHolderClick(view: View, position: Int, item: Repo?) {
-
+    override fun repoViewClickFromList(view: View, position: Int, repo: Repo) {
+        val intent: Intent = Intent()
     }
 }
