@@ -24,8 +24,8 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
         RepoAdapter.OnViewHolderClick {
 
     private var mRepos: List<Repo> = emptyList()
-    private var mAdapter: RepoAdapter = RepoAdapter(baseActivity.get()!!, this)
-    private var mQueryString: String = "kotlin"
+    private var mAdapter: RepoAdapter = RepoAdapter(baseActivity.get(), this)
+    private var mQueryString: String = ""
 
     private val toolbar = baseActivity.get()?.toolbar
     private val searchView = baseActivity.get()?.searchView
@@ -34,21 +34,11 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
     private val layoutManager = LinearLayoutManager(baseActivity.get(), LinearLayoutManager.VERTICAL, false)
 
     init {
+        mQueryString = "kotlin"
         setUpNavigation()
         setUpSearchView()
         setUpRecyclerView()
         doSearch()
-    }
-
-    private fun doSearch() {
-        setTitle()
-        baseViewModel.findReposByQueryFromServer(mQueryString, "stars", "desc", null, null, false)
-    }
-
-    private fun setTitle() {
-        mainTitle?.text = String.format(Locale.getDefault(), "%s: %s",
-                baseActivity.get()?.getString(R.string.mainTitle), mQueryString
-        )
     }
 
     private fun setUpNavigation() {
@@ -65,14 +55,24 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
         recyclerviewHorizontal?.adapter = mAdapter
     }
 
+    private fun doSearch() {
+        setTitle()
+        baseViewModel.findReposByQueryFromServer(mQueryString, "stars", "desc", null, null, false)
+    }
+
+    private fun setTitle() {
+        mainTitle?.text = String.format(Locale.getDefault(), "%s: %s",
+                baseActivity.get()?.getString(R.string.mainTitle), mQueryString
+        )
+    }
+
     override fun subscribeUiToLiveData() {
-        mQueryString = "kotlin"
         subscribeSuggestions()
         subscribeReposByQuery()
     }
 
     private fun subscribeSuggestions() {
-        baseViewModel.findSuggestionsByQueryFromDb()?.observe(baseActivity.get()!!, Observer<List<Repo>> { suggestions ->
+        baseViewModel.getSuggestions()?.observe(baseActivity.get()!!, Observer<List<Repo>> { suggestions ->
             if (suggestions != null) {
                 setSuggestions(suggestions)
             }
@@ -80,11 +80,10 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
     }
 
     private fun subscribeReposByQuery() {
-        baseViewModel.getFoundRepos()?.observe(baseActivity.get()!!, Observer<List<Repo>> { repos ->
+        baseViewModel.getReposByQuery()?.observe(baseActivity.get()!!, Observer<List<Repo>> { repos ->
             if (repos != null) {
                 mRepos = repos
-                baseViewModel.findSuggestionsByQueryFromDb()
-                fillAdapter(repos)
+                fillRepoAdapter(repos)
             }
         })
     }
@@ -96,17 +95,13 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
     private fun getSuggestions(repos: List<Repo>): Array<String?> {
         var suggestions = arrayOfNulls<String>(0)
         repos.forEach {
-            suggestions += it.name
+            suggestions += it.name + " " + it.fullName
         }
         return suggestions
     }
 
-    private fun fillAdapter(repos: List<Repo>) {
+    private fun fillRepoAdapter(repos: List<Repo>) {
         mAdapter.mRepos = repos
-    }
-
-    override fun showDataInUi() {
-
     }
 
     override fun onQueryTextChange(newText: String): Boolean {

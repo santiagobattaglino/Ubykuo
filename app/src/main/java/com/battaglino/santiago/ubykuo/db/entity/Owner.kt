@@ -3,21 +3,21 @@ package com.battaglino.santiago.ubykuo.db.entity
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import io.reactivex.annotations.NonNull
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by Santiago Battaglino.
  */
-//@Parcelize
-@Entity(tableName = "owners", indices = [Index(value = arrayOf("uid"))])
+@Parcelize
+@Entity(tableName = "owners", indices = [Index(value = arrayOf("id"))])
 data class Owner(
 
         @PrimaryKey(autoGenerate = true)
         @NonNull
-        var uid: Int?,
-
         @Expose
         var id: Int?,
 
@@ -45,7 +45,6 @@ data class Owner(
 
         @Expose
         var type: String?
-) //: Parcelable
-{
-    constructor() : this(null, 0, "", "", "", "", "", "", "")
+) : Parcelable {
+    constructor() : this(0, "", "", "", "", "", "", "")
 }

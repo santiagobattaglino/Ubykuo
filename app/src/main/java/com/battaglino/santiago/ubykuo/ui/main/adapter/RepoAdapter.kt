@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.battaglino.santiago.ubykuo.R
 import com.battaglino.santiago.ubykuo.db.entity.Repo
+import com.battaglino.santiago.ubykuo.ui.main.activity.MainActivity
 import kotlinx.android.synthetic.main.listitem_repo.view.*
 import kotlin.properties.Delegates
 
@@ -15,8 +16,8 @@ import kotlin.properties.Delegates
  * Created by Santiago Battaglino.
  */
 class RepoAdapter(
-        private val context: Context,
-        private val onViewHolderClick: RepoAdapter.OnViewHolderClick?
+        private val context: MainActivity?,
+        private val onViewHolderClick: OnViewHolderClick?
 ) : RecyclerView.Adapter<RepoAdapter.ViewHolder>(), AutoUpdatableAdapter {
 
     var mRepos: List<Repo> by Delegates.observable(emptyList()) { prop, oldList, newList ->
@@ -33,8 +34,8 @@ class RepoAdapter(
         holder.bind(mRepos[position])
     }
 
-    private fun createView(context: Context, viewGroup: ViewGroup, viewType: Int): View {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private fun createView(context: MainActivity?, viewGroup: ViewGroup, viewType: Int): View {
+        val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         return inflater.inflate(R.layout.listitem_repo, viewGroup, false)
     }
 

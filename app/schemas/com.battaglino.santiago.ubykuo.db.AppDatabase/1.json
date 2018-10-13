@@ -2,18 +2,12 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3b6979817f47dc570c591eb1e62262e1",
+    "identityHash": "6d1021cfe02be68ca2850bae97b8ff9f",
     "entities": [
       {
         "tableName": "repos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT, `id` INTEGER, `nodeId` TEXT, `name` TEXT, `fullName` TEXT, `owner` TEXT, `htmlUrl` TEXT, `description` TEXT, `fork` INTEGER, `url` TEXT, `createdAt` TEXT, `updatedAt` TEXT, `pushedAt` TEXT, `homepage` TEXT, `size` INTEGER, `stargazersCount` INTEGER, `watchersCount` INTEGER, `language` TEXT, `forksCount` INTEGER, `openIssuesCount` INTEGER, `masterBranch` TEXT, `defaultBranch` TEXT, `score` REAL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `nodeId` TEXT, `name` TEXT, `fullName` TEXT, `owner` TEXT, `htmlUrl` TEXT, `description` TEXT, `fork` INTEGER, `url` TEXT, `createdAt` TEXT, `updatedAt` TEXT, `pushedAt` TEXT, `homepage` TEXT, `size` INTEGER, `stargazersCount` INTEGER, `watchersCount` INTEGER, `language` TEXT, `forksCount` INTEGER, `openIssuesCount` INTEGER, `masterBranch` TEXT, `defaultBranch` TEXT, `score` REAL)",
         "fields": [
-          {
-            "fieldPath": "uid",
-            "columnName": "uid",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
           {
             "fieldPath": "id",
             "columnName": "id",
@@ -149,18 +143,18 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "uid"
+            "id"
           ],
           "autoGenerate": true
         },
         "indices": [
           {
-            "name": "index_repos_uid",
+            "name": "index_repos_id",
             "unique": false,
             "columnNames": [
-              "uid"
+              "id"
             ],
-            "createSql": "CREATE  INDEX `index_repos_uid` ON `${TABLE_NAME}` (`uid`)"
+            "createSql": "CREATE  INDEX `index_repos_id` ON `${TABLE_NAME}` (`id`)"
           }
         ],
         "foreignKeys": []
@@ -168,7 +162,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3b6979817f47dc570c591eb1e62262e1\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6d1021cfe02be68ca2850bae97b8ff9f\")"
     ]
   }
 }

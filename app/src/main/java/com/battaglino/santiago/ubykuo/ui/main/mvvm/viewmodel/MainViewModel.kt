@@ -19,27 +19,15 @@ constructor(application: Application, repository: RepoRepository) : BaseViewMode
         useCaseRepository = repository
     }
 
-    fun getReposFromDb(): LiveData<List<Repo>>? {
-        return useCaseRepository?.getDataList()
+    fun getSuggestions(): LiveData<List<Repo>>? {
+        return useCaseRepository?.getSuggestions()
+    }
+
+    fun getReposByQuery(): LiveData<List<Repo>>? {
+        return useCaseRepository?.getReposByQuery()
     }
 
     fun findReposByQueryFromServer(q: String, sort: String?, order: String?, page: String?, perPage: String?, dispose: Boolean) {
         useCaseRepository?.findReposByQueryFromServer(q, sort, order, page, perPage, dispose)
-    }
-
-    fun findReposByQueryFromDb(query: String): LiveData<List<Repo>>? {
-        return useCaseRepository?.findReposByQueryFromDb(query)
-    }
-
-    fun findSuggestionsByQueryFromDb(): LiveData<List<Repo>>? {
-        return useCaseRepository?.findSuggestionsFromDb()
-    }
-
-    fun getFoundSuggestions(): LiveData<List<Repo>>? {
-        return useCaseRepository?.getFoundSuggestionsDataList()
-    }
-
-    fun getFoundRepos(): LiveData<List<Repo>>? {
-        return useCaseRepository?.getFoundReposDataList()
     }
 }

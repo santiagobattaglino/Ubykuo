@@ -4,21 +4,21 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import io.reactivex.annotations.NonNull
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by Santiago Battaglino.
  */
-//@Parcelize
-@Entity(tableName = "repos", indices = [Index(value = arrayOf("uid"))])
+@Parcelize
+@Entity(tableName = "repos", indices = [Index(value = arrayOf("id"))])
 data class Repo(
 
         @PrimaryKey(autoGenerate = true)
         @NonNull
-        var uid: Int?,
-
         @Expose
         var id: Int?,
 
@@ -101,9 +101,8 @@ data class Repo(
 
         @Expose
         var score: Double?
-) //: Parcelable
-{
-    constructor() : this(null, 0, "", "", "", Owner(), false, "",
+) : Parcelable {
+    constructor() : this(0, "", "", "", Owner(), false, "",
             "", false, "", "", "", "", "",
             0, 0, 0, "", 0, 0,
             "", "", 0.0)

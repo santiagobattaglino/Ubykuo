@@ -26,26 +26,21 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
     private val mDisposable: CompositeDisposable = CompositeDisposable()
 
     private var mFoundRepos: MutableLiveData<List<Repo>> = MutableLiveData()
-    private var mFoundSuggestions: MutableLiveData<List<Repo>> = MutableLiveData()
+    private var mFoundSuggestions: LiveData<List<Repo>> = MutableLiveData()
 
     override fun initLocalData() {
         mDataBase = AppDatabase.getDatabaseBuilder(context)
-        setDataList(mDataBase!!.repoModel().loadList())
+        //setDataList(mDataBase!!.repoModel().loadList())
     }
 
     override fun addData(data: Repo) {
-        mDataBase!!.repoModel().insert(data)
-        setData(mDataBase!!.repoModel().load(data.uid))
+        //mDataBase!!.repoModel().insert(data)
+        //setData(mDataBase!!.repoModel().load(data.uid))
     }
 
     override fun addDataList(dataList: List<Repo>) {
-        mDataBase!!.repoModel().insertAll(dataList)
-        setDataList(mDataBase!!.repoModel().loadList())
-    }
-
-    private fun addFoundReposDataList(repos: List<Repo>, q: String) {
-        mDataBase!!.repoModel().insertAll(repos)
-        setFoundReposDataList(mDataBase!!.repoModel().loadByQuery(q))
+        //mDataBase!!.repoModel().insertAll(dataList)
+        //setDataList(mDataBase!!.repoModel().loadList())
     }
 
     override fun requestDataToServer() {
@@ -78,22 +73,18 @@ constructor(context: Application, private val mClient: ApiService) : UseCaseRepo
                 })
     }
 
-    fun findSuggestionsFromDb(): LiveData<List<Repo>> {
-        mFoundSuggestions.value = mDataBase!!.repoModel().loadSuggestions()
-        return getFoundSuggestionsDataList()
-    }
-
-    fun findReposByQueryFromDb(mQueryString: String): LiveData<List<Repo>> {
-        mFoundRepos.value = mDataBase!!.repoModel().loadByQuery(mQueryString)
-        return getFoundReposDataList()
-    }
-
-    fun getFoundSuggestionsDataList(): LiveData<List<Repo>> {
+    fun getSuggestions(): LiveData<List<Repo>> {
+        mFoundSuggestions = mDataBase!!.repoModel().loadSuggestions()
         return mFoundSuggestions
     }
 
-    fun getFoundReposDataList(): LiveData<List<Repo>> {
+    fun getReposByQuery(): LiveData<List<Repo>> {
         return mFoundRepos
+    }
+
+    private fun addFoundReposDataList(repos: List<Repo>, q: String) {
+        mDataBase!!.repoModel().insertAll(repos)
+        setFoundReposDataList(mDataBase!!.repoModel().loadByQuery(q))
     }
 
     private fun setFoundReposDataList(foundRepos: List<Repo>) {
