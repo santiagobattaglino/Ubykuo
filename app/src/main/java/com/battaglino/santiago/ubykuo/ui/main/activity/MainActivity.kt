@@ -8,7 +8,7 @@ import com.battaglino.santiago.ubykuo.R
 import com.battaglino.santiago.ubykuo.base.activity.BaseActivity
 import com.battaglino.santiago.ubykuo.ui.main.mvvm.view.MainView
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -17,7 +17,7 @@ class MainActivity : BaseActivity() {
     internal var view: MainView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setContentView(R.layout.main_activity)
+        setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
     }
 

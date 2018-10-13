@@ -52,7 +52,7 @@ class RepoAdapter(
     }
 
     interface OnViewHolderClick {
-        fun repoViewClickFromList(view: View, position: Int, item: Repo)
+        fun repoViewClickFromList(view: View, position: Int, repo: Repo)
     }
 
     inner class ViewHolder(itemView: View, listener: RepoAdapter.OnViewHolderClick?) :

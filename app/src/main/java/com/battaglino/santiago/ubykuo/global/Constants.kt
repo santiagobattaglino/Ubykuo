@@ -6,4 +6,5 @@ package com.battaglino.santiago.ubykuo.global
 object Constants {
     const val APP_DB_NAME = "ubykuo"
     const val QUERY = "QUERY"
+    const val INTENT_REPO = "INTENT_REPO"
 }

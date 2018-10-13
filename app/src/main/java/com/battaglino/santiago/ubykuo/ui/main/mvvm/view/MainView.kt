@@ -10,13 +10,13 @@ import com.battaglino.santiago.ubykuo.base.mvvm.view.BaseView
 import com.battaglino.santiago.ubykuo.db.entity.Repo
 import com.battaglino.santiago.ubykuo.global.Constants
 import com.battaglino.santiago.ubykuo.ui.main.activity.MainActivity
+import com.battaglino.santiago.ubykuo.ui.main.activity.MainDetailActivity
 import com.battaglino.santiago.ubykuo.ui.main.adapter.RepoAdapter
 import com.battaglino.santiago.ubykuo.ui.main.mvvm.viewmodel.MainViewModel
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.main_activity.*
 import java.util.*
-
 
 /**
  * Created by Santiago Battaglino.
@@ -144,6 +144,8 @@ class MainView(activity: MainActivity, viewModel: MainViewModel) :
     }
 
     override fun repoViewClickFromList(view: View, position: Int, repo: Repo) {
-        val intent: Intent = Intent()
+        val intent = Intent(baseActivity.get(), MainDetailActivity::class.java)
+        intent.putExtra(Constants.INTENT_REPO, repo)
+        baseActivity.get()?.startActivity(intent)
     }
 }
